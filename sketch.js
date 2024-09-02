@@ -26,6 +26,7 @@ var game_score;
 var flagpole;
 var lives;
 var isDead = false;
+var isComplete = false;
 
 function preload()
 {
@@ -96,19 +97,19 @@ function draw() {
             checkCollectable(collectables[i]);
         }
     }
-    //DRAW FLAGPOLE
+    // DRAW FLAGPOLE
     drawFlagpole();
 
-    //DRAW CHARACTER
+    // DRAW CHARACTER
     drawGameCharacter();
-    //DRAW ENEMY
+    // DRAW ENEMY
     enemyy.drawEnemy()
     enemyy.contact()
     pop();
  
    
 
-    //CHECK GAME OVER OR LEVEL COMPLETE
+    // CHECK GAME OVER OR LEVEL COMPLETE
     if(flagpole.isReached == true){
         push()
         strokeWeight(3)
@@ -169,10 +170,8 @@ function draw() {
 // Function to control the animation of the character when
 // keys are pressed.
 function keyPressed() {
- //Game over check, if lives are over, player won't be able to move
-    if(lives < 1){
-        return
-    }
+    
+    //flagpole check, if checked then palyer won't be able to move
     if (keyCode == 65) {
         isLeft = true;
     } else if (keyCode == 68) {
@@ -185,11 +184,11 @@ function keyPressed() {
     //RESET GAME AFTER GAME OVER OR WINNING
     if(flagpole.isReached ==true && keyCode == 32 || lives < 1 && keyCode == 32){
         startGame();
-        isPlummeting == false
-        lives = 3
+        isPlummeting = false;
+        lives = 3;
     }
 
-
+   
 }
 
 function keyReleased() {
@@ -203,6 +202,75 @@ function keyReleased() {
 }
 
 function drawGameCharacter() {
+    if(lives < 1){
+        fill(5, 10, 10);
+        rect(gameChar_x - 10, gameChar_y - 65, 40, 5);
+        rect(gameChar_x, gameChar_y - 75, 20, 15);
+        fill(155, 200, 100);
+        rect(gameChar_x - 3, gameChar_y - 60, 26, 20);
+
+        // EYE
+        fill(10, 10, 200);
+        ellipse(gameChar_x + 3, gameChar_y - 54, 6, 3);
+
+        fill(10, 10, 200);
+        ellipse(gameChar_x + 15, gameChar_y - 54, 6, 3);
+
+        // BODY
+        fill(200, 30, 50);
+        rect(gameChar_x, gameChar_y - 40, 20, 30);
+
+        // FEET
+        fill(10, 80, 200);
+        beginShape();
+        vertex(gameChar_x + 1, gameChar_y - 13);
+        vertex(gameChar_x - 10, gameChar_y + 3);
+        vertex(gameChar_x - 3, gameChar_y + 7);
+        vertex(gameChar_x + 13, gameChar_y - 13);
+        endShape();
+        beginShape();
+        vertex(gameChar_x + 20, gameChar_y - 13);
+        vertex(gameChar_x + 30, gameChar_y + 3);
+        vertex(gameChar_x + 23, gameChar_y + 7);
+        vertex(gameChar_x + 7, gameChar_y - 13);
+        endShape();
+        return
+    }
+    
+    if(isComplete == true){
+        fill(5, 10, 10);
+        rect(gameChar_x - 10, gameChar_y - 65, 40, 5);
+        rect(gameChar_x, gameChar_y - 75, 20, 15);
+        fill(155, 200, 100);
+        rect(gameChar_x - 3, gameChar_y - 60, 26, 20);
+
+        // EYE
+        fill(10, 10, 200);
+        ellipse(gameChar_x + 3, gameChar_y - 54, 6, 3);
+
+        fill(10, 10, 200);
+        ellipse(gameChar_x + 15, gameChar_y - 54, 6, 3);
+
+        // BODY
+        fill(200, 30, 50);
+        rect(gameChar_x, gameChar_y - 40, 20, 30);
+
+        // FEET
+        fill(10, 80, 200);
+        beginShape();
+        vertex(gameChar_x + 1, gameChar_y - 13);
+        vertex(gameChar_x - 10, gameChar_y + 3);
+        vertex(gameChar_x - 3, gameChar_y + 7);
+        vertex(gameChar_x + 13, gameChar_y - 13);
+        endShape();
+        beginShape();
+        vertex(gameChar_x + 20, gameChar_y - 13);
+        vertex(gameChar_x + 30, gameChar_y + 3);
+        vertex(gameChar_x + 23, gameChar_y + 7);
+        vertex(gameChar_x + 7, gameChar_y - 13);
+        endShape();
+        return
+    }
     if (isLeft && isFalling) {
         // add your jumping-left code
         // HEAD
@@ -468,6 +536,7 @@ function checkFlagpole(){
     var d = abs(gameChar_x - flagpole.x_pos)
     if(d < 10){
         flagpole.isReached = true;
+        isComplete = true;
     }
 }
 
@@ -513,6 +582,7 @@ function startGame(){
     limitWorldRight = 1900;
     limitWorldLeft = 0;
     game_score = 0;
+    isComplete = false;
     flagpole = {isReached:false, x_pos: 1700}
     enemyy = new Enemy(200, 100);
 }
