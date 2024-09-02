@@ -96,9 +96,17 @@ function draw() {
             checkCollectable(collectables[i]);
         }
     }
+    //DRAW FLAGPOLE
     drawFlagpole();
+
+    //DRAW CHARACTER
     drawGameCharacter();
+    //DRAW ENEMY
+    enemyy.drawEnemy()
+    enemyy.contact()
     pop();
+ 
+   
 
     //CHECK GAME OVER OR LEVEL COMPLETE
     if(flagpole.isReached == true){
@@ -111,11 +119,13 @@ function draw() {
     }
     if(lives<1){
         push()
-        strokeWeight(3)
-        stroke(10)
-        fill(200,20,20)
-        text("GAME OVER! Press space to continue", 500, 100)
+        strokeWeight(1)
+        stroke(2)
+        fill(30,200,20)
+        textSize(20)
+        text("Game Over! Press space to continue", 500, 100)
         pop()
+        isPlummeting= true;
     }
 
     //CHECK THE FLAGPOLE
@@ -156,9 +166,13 @@ function draw() {
     }
 }
 
+// Function to control the animation of the character when
+// keys are pressed.
 function keyPressed() {
-    // if statements to control the animation of the character when
-    // keys are pressed.
+ //Game over check, if lives are over, player won't be able to move
+    if(lives < 1){
+        return
+    }
     if (keyCode == 65) {
         isLeft = true;
     } else if (keyCode == 68) {
@@ -244,7 +258,7 @@ function drawGameCharacter() {
         vertex(gameChar_x + 20, gameChar_y - 13);
         endShape();
         gameChar_x += 3;
-    } else if (isLeft) {
+    } else if (isLeft && gameChar_x > limitWorldLeft) {
         // add your walking left code
         // HEAD
         fill(5, 10, 10);
@@ -262,7 +276,7 @@ function drawGameCharacter() {
         fill(10, 80, 200);
         rect(gameChar_x + 3, gameChar_y - 13, 15, 13);
         gameChar_x -= 3;
-    } else if (isRight) {
+    } else if (isRight && gameChar_x < limitWorldRight) {
         // add your walking right code
         // HEAD
         fill(5, 10, 10);
@@ -500,4 +514,34 @@ function startGame(){
     limitWorldLeft = 0;
     game_score = 0;
     flagpole = {isReached:false, x_pos: 1700}
+    enemyy = new Enemy(200, 100);
+}
+
+function Enemy(x, range) {
+    this.x = x;
+    this.y = floorPos_y - 10;
+    this.range = range;
+    this.currentX = x;
+    this.inc = 2; 
+
+    this.move = function() {
+        this.currentX += this.inc;
+        if (this.currentX >= this.x + this.range) {
+            this.inc = -2;
+        } else if (this.currentX <= this.x) {
+            this.inc = 2;
+        }
+    };
+
+    this.drawEnemy = function() {
+        this.move();
+        fill(200, 20, 20);
+        ellipse(this.currentX, this.y, 20);
+    };
+    this.contact = function(){
+        this.dist = abs(gameChar_x - this.currentX)
+        if(this.dist < 20){
+            isDead = true;
+        }
+    }
 }
