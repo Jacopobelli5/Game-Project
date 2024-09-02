@@ -203,229 +203,230 @@ function keyReleased() {
 }
 
 function drawGameCharacter() {
-    if(lives < 1){
-        fill(5, 10, 10);
-        rect(gameChar_x - 10, gameChar_y - 65, 40, 5);
-        rect(gameChar_x, gameChar_y - 75, 20, 15);
-        fill(155, 200, 100);
-        rect(gameChar_x - 3, gameChar_y - 60, 26, 20);
+  if (lives < 1) {
+    fill(5, 10, 10);
+    rect(gameChar_x - 10, gameChar_y - 65, 40, 5);
+    rect(gameChar_x, gameChar_y - 75, 20, 15);
+    fill(155, 200, 100);
+    rect(gameChar_x - 3, gameChar_y - 60, 26, 20);
 
-        // EYE
-        fill(10, 10, 200);
-        ellipse(gameChar_x + 3, gameChar_y - 54, 6, 3);
+    // EYE
+    fill(10, 10, 200);
+    ellipse(gameChar_x + 3, gameChar_y - 54, 6, 3);
 
-        fill(10, 10, 200);
-        ellipse(gameChar_x + 15, gameChar_y - 54, 6, 3);
+    fill(10, 10, 200);
+    ellipse(gameChar_x + 15, gameChar_y - 54, 6, 3);
 
-        // BODY
-        fill(200, 30, 50);
-        rect(gameChar_x, gameChar_y - 40, 20, 30);
+    // BODY
+    fill(200, 30, 50);
+    rect(gameChar_x, gameChar_y - 40, 20, 30);
 
-        // FEET
-        fill(10, 80, 200);
-        beginShape();
-        vertex(gameChar_x + 1, gameChar_y - 13);
-        vertex(gameChar_x - 10, gameChar_y + 3);
-        vertex(gameChar_x - 3, gameChar_y + 7);
-        vertex(gameChar_x + 13, gameChar_y - 13);
-        endShape();
-        beginShape();
-        vertex(gameChar_x + 20, gameChar_y - 13);
-        vertex(gameChar_x + 30, gameChar_y + 3);
-        vertex(gameChar_x + 23, gameChar_y + 7);
-        vertex(gameChar_x + 7, gameChar_y - 13);
-        endShape();
-        return
-    }
-    
-    if(isComplete == true){
-        fill(5, 10, 10);
-        rect(gameChar_x - 10, gameChar_y - 65, 40, 5);
-        rect(gameChar_x, gameChar_y - 75, 20, 15);
-        fill(155, 200, 100);
-        rect(gameChar_x - 3, gameChar_y - 60, 26, 20);
+    // FEET
+    fill(10, 80, 200);
+    beginShape();
+    vertex(gameChar_x + 1, gameChar_y - 13);
+    vertex(gameChar_x - 10, gameChar_y + 3);
+    vertex(gameChar_x - 3, gameChar_y + 7);
+    vertex(gameChar_x + 13, gameChar_y - 13);
+    endShape();
+    beginShape();
+    vertex(gameChar_x + 20, gameChar_y - 13);
+    vertex(gameChar_x + 30, gameChar_y + 3);
+    vertex(gameChar_x + 23, gameChar_y + 7);
+    vertex(gameChar_x + 7, gameChar_y - 13);
+    endShape();
+    return;
+  }
 
-        // EYE
-        fill(10, 10, 200);
-        ellipse(gameChar_x + 3, gameChar_y - 54, 6, 3);
+  if (isComplete == true) {
+    fill(5, 10, 10);
+    rect(gameChar_x - 10, gameChar_y - 65, 40, 5);
+    rect(gameChar_x, gameChar_y - 75, 20, 15);
+    fill(155, 200, 100);
+    rect(gameChar_x - 3, gameChar_y - 60, 26, 20);
 
-        fill(10, 10, 200);
-        ellipse(gameChar_x + 15, gameChar_y - 54, 6, 3);
+    // EYE
+    fill(10, 10, 200);
+    ellipse(gameChar_x + 3, gameChar_y - 54, 6, 3);
 
-        // BODY
-        fill(200, 30, 50);
-        rect(gameChar_x, gameChar_y - 40, 20, 30);
+    fill(10, 10, 200);
+    ellipse(gameChar_x + 15, gameChar_y - 54, 6, 3);
 
-        // FEET
-        fill(10, 80, 200);
-        beginShape();
-        vertex(gameChar_x + 1, gameChar_y - 13);
-        vertex(gameChar_x - 10, gameChar_y + 3);
-        vertex(gameChar_x - 3, gameChar_y + 7);
-        vertex(gameChar_x + 13, gameChar_y - 13);
-        endShape();
-        beginShape();
-        vertex(gameChar_x + 20, gameChar_y - 13);
-        vertex(gameChar_x + 30, gameChar_y + 3);
-        vertex(gameChar_x + 23, gameChar_y + 7);
-        vertex(gameChar_x + 7, gameChar_y - 13);
-        endShape();
-        return
-    }
-    if (isLeft && isFalling) {
-        // add your jumping-left code
-        // HEAD
-        fill(5, 10, 10);
-        rect(gameChar_x - 10, gameChar_y - 65, 40, 5);
-        rect(gameChar_x, gameChar_y - 75, 20, 15);
-        fill(155, 200, 100);
-        rect(gameChar_x - 3, gameChar_y - 60, 26, 20);
-        // EYE
-        fill(10, 10, 200);
-        ellipse(gameChar_x + 3, gameChar_y - 54, 6, 3);
-        // BODY
-        fill(200, 30, 50);
-        rect(gameChar_x, gameChar_y - 40, 20, 27);
-        // FEET
-        fill(10, 80, 200);
-        beginShape();
-        vertex(gameChar_x + 1, gameChar_y - 13);
-        vertex(gameChar_x + 18, gameChar_y - 13);
-        vertex(gameChar_x + 10, gameChar_y - 3);
-        vertex(gameChar_x + 18, gameChar_y + 3);
-        vertex(gameChar_x + 10, gameChar_y + 7);
-        vertex(gameChar_x - 1, gameChar_y - 3);
-        vertex(gameChar_x + 1, gameChar_y - 13);
-        endShape();
-        gameChar_x -= 3;
-    } else if (isRight && isFalling) {
-        // add your jumping-right code
-        // HEAD
-        fill(5, 10, 10);
-        rect(gameChar_x - 10, gameChar_y - 65, 40, 5);
-        rect(gameChar_x, gameChar_y - 75, 20, 15);
-        fill(155, 200, 100);
-        rect(gameChar_x - 3, gameChar_y - 60, 26, 20);
+    // BODY
+    fill(200, 30, 50);
+    rect(gameChar_x, gameChar_y - 40, 20, 30);
 
-        // EYE
-        fill(10, 10, 200);
-        ellipse(gameChar_x + 15, gameChar_y - 54, 6, 3);
+    // FEET
+    fill(10, 80, 200);
+    beginShape();
+    vertex(gameChar_x + 1, gameChar_y - 13);
+    vertex(gameChar_x - 10, gameChar_y + 3);
+    vertex(gameChar_x - 3, gameChar_y + 7);
+    vertex(gameChar_x + 13, gameChar_y - 13);
+    endShape();
+    beginShape();
+    vertex(gameChar_x + 20, gameChar_y - 13);
+    vertex(gameChar_x + 30, gameChar_y + 3);
+    vertex(gameChar_x + 23, gameChar_y + 7);
+    vertex(gameChar_x + 7, gameChar_y - 13);
+    endShape();
+    return;
+  }
+  if (isLeft && isFalling) {
+    // add your jumping-left code
+    // HEAD
+    fill(5, 10, 10);
+    rect(gameChar_x - 10, gameChar_y - 65, 40, 5);
+    rect(gameChar_x, gameChar_y - 75, 20, 15);
+    fill(155, 200, 100);
+    rect(gameChar_x - 3, gameChar_y - 60, 26, 20);
+    // EYE
+    fill(10, 10, 200);
+    ellipse(gameChar_x + 3, gameChar_y - 54, 6, 3);
+    // BODY
+    fill(200, 30, 50);
+    rect(gameChar_x, gameChar_y - 40, 20, 27);
+    // FEET
+    fill(10, 80, 200);
+    beginShape();
+    vertex(gameChar_x + 1, gameChar_y - 13);
+    vertex(gameChar_x + 18, gameChar_y - 13);
+    vertex(gameChar_x + 10, gameChar_y - 3);
+    vertex(gameChar_x + 18, gameChar_y + 3);
+    vertex(gameChar_x + 10, gameChar_y + 7);
+    vertex(gameChar_x - 1, gameChar_y - 3);
+    vertex(gameChar_x + 1, gameChar_y - 13);
+    endShape();
+    gameChar_x -= 3;
+  } else if (isRight && isFalling) {
+    // add your jumping-right code
+    // HEAD
+    fill(5, 10, 10);
+    rect(gameChar_x - 10, gameChar_y - 65, 40, 5);
+    rect(gameChar_x, gameChar_y - 75, 20, 15);
+    fill(155, 200, 100);
+    rect(gameChar_x - 3, gameChar_y - 60, 26, 20);
 
-        // BODY
-        fill(200, 30, 50);
-        rect(gameChar_x, gameChar_y - 40, 20, 27);
+    // EYE
+    fill(10, 10, 200);
+    ellipse(gameChar_x + 15, gameChar_y - 54, 6, 3);
 
-        // FEET
-        fill(10, 80, 200);
-        beginShape();
-        vertex(gameChar_x + 20, gameChar_y - 13);
-        vertex(gameChar_x + 2, gameChar_y - 13);
-        vertex(gameChar_x + 10, gameChar_y - 3);
-        vertex(gameChar_x + 2, gameChar_y + 3);
-        vertex(gameChar_x + 10, gameChar_y + 7);
-        vertex(gameChar_x + 22, gameChar_y - 3);
-        vertex(gameChar_x + 20, gameChar_y - 13);
-        endShape();
-        gameChar_x += 3;
-    } else if (isLeft && gameChar_x > limitWorldLeft) {
-        // add your walking left code
-        // HEAD
-        fill(5, 10, 10);
-        rect(gameChar_x - 10, gameChar_y - 65, 40, 5);
-        rect(gameChar_x, gameChar_y - 75, 20, 15);
-        fill(155, 200, 100);
-        rect(gameChar_x - 3, gameChar_y - 60, 26, 20);
-        // EYE
-        fill(10, 10, 200);
-        ellipse(gameChar_x + 3, gameChar_y - 54, 6, 3);
-        // BODY
-        fill(200, 30, 50);
-        rect(gameChar_x, gameChar_y - 40, 20, 27);
-        // FEET
-        fill(10, 80, 200);
-        rect(gameChar_x + 3, gameChar_y - 13, 15, 13);
-        gameChar_x -= 3;
-    } else if (isRight && gameChar_x < limitWorldRight) {
-        // add your walking right code
-        // HEAD
-        fill(5, 10, 10);
-        rect(gameChar_x - 10, gameChar_y - 65, 40, 5);
-        rect(gameChar_x, gameChar_y - 75, 20, 15);
-        fill(155, 200, 100);
-        rect(gameChar_x - 3, gameChar_y - 60, 26, 20);
+    // BODY
+    fill(200, 30, 50);
+    rect(gameChar_x, gameChar_y - 40, 20, 27);
 
-        // EYE
-        fill(10, 10, 200);
-        ellipse(gameChar_x + 15, gameChar_y - 54, 6, 3);
+    // FEET
+    fill(10, 80, 200);
+    beginShape();
+    vertex(gameChar_x + 20, gameChar_y - 13);
+    vertex(gameChar_x + 2, gameChar_y - 13);
+    vertex(gameChar_x + 10, gameChar_y - 3);
+    vertex(gameChar_x + 2, gameChar_y + 3);
+    vertex(gameChar_x + 10, gameChar_y + 7);
+    vertex(gameChar_x + 22, gameChar_y - 3);
+    vertex(gameChar_x + 20, gameChar_y - 13);
+    endShape();
+    gameChar_x += 3;
+  } else if (isLeft && gameChar_x > limitWorldLeft) {
+    // add your walking left code
+    // HEAD
+    fill(5, 10, 10);
+    rect(gameChar_x - 10, gameChar_y - 65, 40, 5);
+    rect(gameChar_x, gameChar_y - 75, 20, 15);
+    fill(155, 200, 100);
+    rect(gameChar_x - 3, gameChar_y - 60, 26, 20);
+    // EYE
+    fill(10, 10, 200);
+    ellipse(gameChar_x + 3, gameChar_y - 54, 6, 3);
+    // BODY
+    fill(200, 30, 50);
+    rect(gameChar_x, gameChar_y - 40, 20, 27);
+    // FEET
+    fill(10, 80, 200);
+    rect(gameChar_x + 3, gameChar_y - 13, 15, 13);
+    gameChar_x -= 3;
+  } else if (isRight && gameChar_x < limitWorldRight) {
+    // add your walking right code
+    // HEAD
+    fill(5, 10, 10);
+    rect(gameChar_x - 10, gameChar_y - 65, 40, 5);
+    rect(gameChar_x, gameChar_y - 75, 20, 15);
+    fill(155, 200, 100);
+    rect(gameChar_x - 3, gameChar_y - 60, 26, 20);
 
-        // BODY
-        fill(200, 30, 50);
-        rect(gameChar_x, gameChar_y - 40, 20, 27);
+    // EYE
+    fill(10, 10, 200);
+    ellipse(gameChar_x + 15, gameChar_y - 54, 6, 3);
 
-        // FEET
-        fill(10, 80, 200);
-        rect(gameChar_x + 3, gameChar_y - 13, 15, 13);
-        gameChar_x += 3;
-    } else if (isFalling || isPlummeting) {
-        // add your jumping facing forwards code
-        // HEAD
-        fill(5, 10, 10);
-        rect(gameChar_x - 10, gameChar_y - 65, 40, 5);
-        rect(gameChar_x, gameChar_y - 75, 20, 15);
-        fill(155, 200, 100);
-        rect(gameChar_x - 3, gameChar_y - 60, 26, 20);
+    // BODY
+    fill(200, 30, 50);
+    rect(gameChar_x, gameChar_y - 40, 20, 27);
 
-        // EYE
-        fill(10, 10, 200);
-        ellipse(gameChar_x + 3, gameChar_y - 54, 6, 3);
+    // FEET
+    fill(10, 80, 200);
+    rect(gameChar_x + 3, gameChar_y - 13, 15, 13);
+    gameChar_x += 3;
+  } else if (isFalling || isPlummeting) {
+    // add your jumping facing forwards code
+    // HEAD
+    fill(5, 10, 10);
+    rect(gameChar_x - 10, gameChar_y - 65, 40, 5);
+    rect(gameChar_x, gameChar_y - 75, 20, 15);
+    fill(155, 200, 100);
+    rect(gameChar_x - 3, gameChar_y - 60, 26, 20);
 
-        fill(10, 10, 200);
-        ellipse(gameChar_x + 15, gameChar_y - 54, 6, 3);
+    // EYE
+    fill(10, 10, 200);
+    ellipse(gameChar_x + 3, gameChar_y - 54, 6, 3);
 
-        // BODY
-        fill(200, 30, 50);
-        rect(gameChar_x, gameChar_y - 40, 20, 30);
+    fill(10, 10, 200);
+    ellipse(gameChar_x + 15, gameChar_y - 54, 6, 3);
 
-        // FEET
-        fill(10, 80, 200);
-        beginShape();
-        vertex(gameChar_x + 1, gameChar_y - 13);
-        vertex(gameChar_x - 10, gameChar_y + 3);
-        vertex(gameChar_x - 3, gameChar_y + 7);
-        vertex(gameChar_x + 13, gameChar_y - 13);
-        endShape();
-        beginShape();
-        vertex(gameChar_x + 20, gameChar_y - 13);
-        vertex(gameChar_x + 30, gameChar_y + 3);
-        vertex(gameChar_x + 23, gameChar_y + 7);
-        vertex(gameChar_x + 7, gameChar_y - 13);
-        endShape();
-    } else {
-        // add your standing front facing code
-        // HEAD
-        fill(5, 10, 10);
-        rect(gameChar_x - 10, gameChar_y - 65, 40, 5);
-        rect(gameChar_x, gameChar_y - 75, 20, 15);
-        fill(155, 200, 100);
-        rect(gameChar_x - 3, gameChar_y - 60, 26, 20);
+    // BODY
+    fill(200, 30, 50);
+    rect(gameChar_x, gameChar_y - 40, 20, 30);
 
-        // EYES
-        fill(10, 10, 200);
-        ellipse(gameChar_x + 3, gameChar_y - 54, 6, 3);
+    // FEET
+    fill(10, 80, 200);
+    beginShape();
+    vertex(gameChar_x + 1, gameChar_y - 13);
+    vertex(gameChar_x - 10, gameChar_y + 3);
+    vertex(gameChar_x - 3, gameChar_y + 7);
+    vertex(gameChar_x + 13, gameChar_y - 13);
+    endShape();
+    beginShape();
+    vertex(gameChar_x + 20, gameChar_y - 13);
+    vertex(gameChar_x + 30, gameChar_y + 3);
+    vertex(gameChar_x + 23, gameChar_y + 7);
+    vertex(gameChar_x + 7, gameChar_y - 13);
+    endShape();
+  } else {
+    // add your standing front facing code
+    // HEAD
+    fill(5, 10, 10);
+    rect(gameChar_x - 10, gameChar_y - 65, 40, 5);
+    rect(gameChar_x, gameChar_y - 75, 20, 15);
+    fill(155, 200, 100);
+    rect(gameChar_x - 3, gameChar_y - 60, 26, 20);
 
-        fill(10, 10, 200);
-        ellipse(gameChar_x + 15, gameChar_y - 54, 6, 3);
+    // EYES
+    fill(10, 10, 200);
+    ellipse(gameChar_x + 3, gameChar_y - 54, 6, 3);
 
-        // BODY
-        fill(200, 30, 50);
-        rect(gameChar_x, gameChar_y - 40, 20, 27);
+    fill(10, 10, 200);
+    ellipse(gameChar_x + 15, gameChar_y - 54, 6, 3);
 
-        // FEET;
-        fill(10, 80, 200);
-        rect(gameChar_x, gameChar_y - 13, 9, 14);
-        rect(gameChar_x + 11, gameChar_y - 13, 9, 14);
-    }
+    // BODY
+    fill(200, 30, 50);
+    rect(gameChar_x, gameChar_y - 40, 20, 27);
+
+    // FEET;
+    fill(10, 80, 200);
+    rect(gameChar_x, gameChar_y - 13, 9, 14);
+    rect(gameChar_x + 11, gameChar_y - 13, 9, 14);
+  }
 }
+
 function drawClouds() {
     for (i = 0; i < clouds.length; i++) {
         fill(255, 255, 255);
@@ -463,27 +464,30 @@ function drawTrees() {
 }
 
 function drawMountains() {
-    for (i = 0; i < 4; i++) {
-        fill(140, 110, 80);
+    for (let i = 0; i < 4; i++) {
+        fill(120, 100, 80);
         triangle(
             mountains[i].x_pos,
             mountains[i].y_pos,
             mountains[i].x_pos + 180,
             mountains[i].y_pos - 350,
-            mountains[i].x_pos + 350,
+            mountains[i].x_pos + 360,
             mountains[i].y_pos
         );
-        fill(140, 110, 80);
+
+        fill(160, 140, 120);
         triangle(
-            mountains[i].x_pos,
+            mountains[i].x_pos + 90,
             mountains[i].y_pos,
             mountains[i].x_pos + 180,
             mountains[i].y_pos - 350,
-            mountains[i].x_pos + 350,
+            mountains[i].x_pos + 270,
             mountains[i].y_pos
         );
     }
 }
+
+
 
 function drawCanyon(t_canyon) {
     fill(200, 155, 255);
@@ -617,12 +621,12 @@ function startGame(){
     game_score = 0;
     isComplete = false;
     flagpole = {isReached:false, x_pos: 1700}
-    enemyy = new Enemy(200, 100);
+    enemyy = new Enemy(200, 432, 100);
 }
 
-function Enemy(x, range) {
+function Enemy(x,y, range) {
     this.x = x;
-    this.y = floorPos_y - 10;
+    this.y = y;
     this.range = range;
     this.currentX = x;
     this.inc = 2; 
@@ -642,7 +646,7 @@ function Enemy(x, range) {
         ellipse(this.currentX, this.y, 20);
     };
     this.contact = function(){
-        this.dist = abs(gameChar_x - this.currentX)
+        this.dist = dist(gameChar_x, gameChar_y, this.currentX, this.y)
         if(this.dist < 20){
             isDead = true;
         }
