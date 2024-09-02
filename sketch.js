@@ -31,8 +31,6 @@ var isComplete = false;
 function preload()
 {
     soundFormats('mp3','wav');
-    
-    //load your sounds here
     jumpSound = loadSound('assets/jump.wav');
     jumpSound.setVolume(0.1);
 }
@@ -52,7 +50,7 @@ function draw() {
     cameraPosx = gameChar_x - width /2;
 
     // DRAW THE SKY
-    background(200, 105, 255);
+    background(200, 155, 255);
 
     // DRAW THE GROUND
     noStroke();
@@ -69,6 +67,7 @@ function draw() {
         cameraPosx -= 3;
     }
 
+    // STRAT DRAWNG WORLD ELEMENTS
     push();
     translate(-cameraPosx, 0);
 
@@ -102,9 +101,11 @@ function draw() {
 
     // DRAW CHARACTER
     drawGameCharacter();
+
     // DRAW ENEMY
     enemyy.drawEnemy()
     enemyy.contact()
+
     pop();
  
    
@@ -435,28 +436,34 @@ function drawClouds() {
 }
 
 function drawTrees() {
-    for (i = 0; i < trees_x.length; i++) {
-        fill(200, 100, 45);
-        quad(
-            trees_x[i],
-             treePos_y,
-             trees_x[i] + 30,
-             treePos_y,
-             trees_x[i] + 55,
-             treePos_y + 110,
-             trees_x[i] - 25,
-             treePos_y + 110
-        );
-        fill(100, 155, 55);
-        ellipse(trees_x[i] - 20, treePos_y, 120, 100);
-        ellipse(trees_x[i] + 40, treePos_y, 100, 100);
-        ellipse(trees_x[i], treePos_y - 50, 100, 90);
-        ellipse(trees_x[i] + 30, treePos_y - 50, 80, 90);
-    }
+  for (let i = 0; i < trees_x.length; i++) {
+    fill(139, 69, 19);
+    stroke(100, 50, 20);
+    strokeWeight(2);
+    quad(
+      trees_x[i] - 15,
+      treePos_y,
+      trees_x[i] + 15,
+      treePos_y,
+      trees_x[i] + 25,
+      treePos_y - 110,
+      trees_x[i] - 25,
+      treePos_y - 110
+    );
+
+    noStroke();
+    fill(34, 139, 34);
+    ellipse(trees_x[i], treePos_y - 130, 120, 120);
+    ellipse(trees_x[i] - 30, treePos_y - 110, 100, 100);
+    ellipse(trees_x[i] + 30, treePos_y - 110, 100, 100);
+
+    fill(144, 238, 144, 150);
+    ellipse(trees_x[i], treePos_y - 150, 60, 60);
+  }
 }
 
 function drawMountains() {
-    for (i = 0; i < 2; i++) {
+    for (i = 0; i < 4; i++) {
         fill(140, 110, 80);
         triangle(
             mountains[i].x_pos,
@@ -498,12 +505,26 @@ function checkCanyon(t_canyon) {
 }
 
 function drawCollectable(t_collectable) {
-    if (t_collectable.isFound == false) {
-        fill(230, 255, 0);
-        ellipse(t_collectable.x_pos, t_collectable.y_pos, t_collectable.size);
-        fill(200, 155, 255);
-        ellipse(t_collectable.x_pos, t_collectable.y_pos, 28);
-    }
+  if (!collectables[i].isFound) {
+    fill(255, 215, 0);
+    stroke(184, 134, 11);
+    strokeWeight(2);
+    ellipse(collectables[i].x_pos, collectables[i].y_pos, collectables[i].size);
+
+    noStroke();
+    fill(255, 255, 255, 150);
+    ellipse(
+      collectables[i].x_pos - collectables[i].size * 0.2,
+      collectables[i].y_pos - collectables[i].size * 0.2,
+      collectables[i].size * 0.4,
+      collectables[i].size * 0.4
+    );
+
+    fill(184, 134, 11);
+    textSize(collectables[i].size * 0.5);
+    textAlign(CENTER, CENTER);
+    text("$", collectables[i].x_pos, collectables[i].y_pos);
+  }
 }
 
 function checkCollectable(t_collectable) {
@@ -517,20 +538,30 @@ function checkCollectable(t_collectable) {
     }
 }
 
-function drawFlagpole(){
-    push()
+function drawFlagpole() {
+    push();
     strokeWeight(10);
     stroke(255);
-    line(flagpole.x_pos, floorPos_y -3, flagpole.x_pos, floorPos_y - 260);
-    fill(200,20,20);
-    noStroke()
-    if(flagpole.isReached == true){
-        rect(flagpole.x_pos, floorPos_y -260, 50, 50)
-    }else{
-        rect(flagpole.x_pos, floorPos_y - 50, 50, 50)
+    line(flagpole.x_pos, floorPos_y, flagpole.x_pos, floorPos_y - 250);
+
+    if (flagpole.isReached) {
+        fill(55, 250, 50); 
+        stroke(255);
+        strokeWeight(3);
+        rect(flagpole.x_pos + 10, floorPos_y - 250, 50, 30);
+    } else {
+        fill(189, 0, 0);
+        stroke(255);
+        strokeWeight(3);
+        rect(flagpole.x_pos + 10, floorPos_y - 50, 50, 30);
     }
-    pop()
+
+    pop();
 }
+
+
+
+
 
 function checkFlagpole(){
     var d = abs(gameChar_x - flagpole.x_pos)
@@ -566,7 +597,7 @@ function startGame(){
         { x_pos: 100, y_pos: 410, size: 39, isFound: false },
     ];
     trees_x = [200, 390, 800, 1020, 1500];
-    treePos_y = height / 2 + 34;
+    treePos_y = gameChar_y ;
     clouds = [
         { x_pos: 600, y_pos: 120 },
         { x_pos: 200, y_pos: 100 },
@@ -577,6 +608,8 @@ function startGame(){
     mountains = [
         { x_pos: 160, y_pos: 432 },
         { x_pos: 780, y_pos: 432 },
+        { x_pos: 1680, y_pos: 432 },
+        { x_pos: 980, y_pos: 432 },
     ];
     cameraPosx = 0;
     limitWorldRight = 1900;
