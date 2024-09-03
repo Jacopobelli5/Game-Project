@@ -211,11 +211,15 @@ function drawGameCharacter() {
     rect(gameChar_x - 3, gameChar_y - 60, 26, 20);
 
     // EYE
-    fill(10, 10, 200);
-    ellipse(gameChar_x + 3, gameChar_y - 54, 6, 3);
+    fill(10, 10, 90);
+    ellipse(gameChar_x + 3, gameChar_y - 54, 6, 5);
 
-    fill(10, 10, 200);
-    ellipse(gameChar_x + 15, gameChar_y - 54, 6, 3);
+    fill(10, 10, 90);
+    ellipse(gameChar_x + 16, gameChar_y - 54, 6, 5);
+
+    // MOUTH
+    fill(200, 50, 50); 
+    arc(gameChar_x + 10, gameChar_y - 44, 10, 6, PI, PI *2, CHORD);
 
     // BODY
     fill(200, 30, 50);
@@ -246,11 +250,16 @@ function drawGameCharacter() {
     rect(gameChar_x - 3, gameChar_y - 60, 26, 20);
 
     // EYE
-    fill(10, 10, 200);
-    ellipse(gameChar_x + 3, gameChar_y - 54, 6, 3);
+    fill(10, 10, 90);
+    ellipse(gameChar_x + 3, gameChar_y - 54, 6, 5);
 
-    fill(10, 10, 200);
-    ellipse(gameChar_x + 15, gameChar_y - 54, 6, 3);
+    fill(10, 10, 90);
+    ellipse(gameChar_x + 16, gameChar_y - 54, 6, 5);
+
+    // MOUTH
+    fill(200, 50, 50); 
+    arc(gameChar_x + 10, gameChar_y - 48, 10, 6, 0, PI, CHORD);
+ 
 
     // BODY
     fill(200, 30, 50);
@@ -281,8 +290,8 @@ function drawGameCharacter() {
     fill(155, 200, 100);
     rect(gameChar_x - 3, gameChar_y - 60, 26, 20);
     // EYE
-    fill(10, 10, 200);
-    ellipse(gameChar_x + 3, gameChar_y - 54, 6, 3);
+    fill(10, 10, 90);
+    ellipse(gameChar_x + 3, gameChar_y - 54, 6, 5);
     // BODY
     fill(200, 30, 50);
     rect(gameChar_x, gameChar_y - 40, 20, 27);
@@ -308,8 +317,8 @@ function drawGameCharacter() {
     rect(gameChar_x - 3, gameChar_y - 60, 26, 20);
 
     // EYE
-    fill(10, 10, 200);
-    ellipse(gameChar_x + 15, gameChar_y - 54, 6, 3);
+    fill(10, 10, 90);
+    ellipse(gameChar_x + 15, gameChar_y - 54, 6, 5);
 
     // BODY
     fill(200, 30, 50);
@@ -336,8 +345,8 @@ function drawGameCharacter() {
     fill(155, 200, 100);
     rect(gameChar_x - 3, gameChar_y - 60, 26, 20);
     // EYE
-    fill(10, 10, 200);
-    ellipse(gameChar_x + 3, gameChar_y - 54, 6, 3);
+    fill(10, 10, 90);
+    ellipse(gameChar_x + 3, gameChar_y - 54, 6, 5);
     // BODY
     fill(200, 30, 50);
     rect(gameChar_x, gameChar_y - 40, 20, 27);
@@ -355,8 +364,8 @@ function drawGameCharacter() {
     rect(gameChar_x - 3, gameChar_y - 60, 26, 20);
 
     // EYE
-    fill(10, 10, 200);
-    ellipse(gameChar_x + 15, gameChar_y - 54, 6, 3);
+    fill(10, 10, 90);
+    ellipse(gameChar_x + 15, gameChar_y - 54, 6, 5);
 
     // BODY
     fill(200, 30, 50);
@@ -376,11 +385,15 @@ function drawGameCharacter() {
     rect(gameChar_x - 3, gameChar_y - 60, 26, 20);
 
     // EYE
-    fill(10, 10, 200);
-    ellipse(gameChar_x + 3, gameChar_y - 54, 6, 3);
+    fill(10, 10, 90);
+    ellipse(gameChar_x + 3, gameChar_y - 54, 6, 5);
 
-    fill(10, 10, 200);
-    ellipse(gameChar_x + 15, gameChar_y - 54, 6, 3);
+    fill(10, 10, 90);
+    ellipse(gameChar_x + 16, gameChar_y - 54, 6, 5);
+
+    // MOUTH
+    fill(200, 50, 50); 
+    arc(gameChar_x + 10, gameChar_y - 44, 10, 6, PI, PI *2, CHORD);
 
     // BODY
     fill(200, 30, 50);
@@ -410,11 +423,15 @@ function drawGameCharacter() {
     rect(gameChar_x - 3, gameChar_y - 60, 26, 20);
 
     // EYES
-    fill(10, 10, 200);
-    ellipse(gameChar_x + 3, gameChar_y - 54, 6, 3);
+    fill(10, 10, 90);
+    ellipse(gameChar_x + 3, gameChar_y - 54, 6, 5);
 
-    fill(10, 10, 200);
-    ellipse(gameChar_x + 15, gameChar_y - 54, 6, 3);
+    fill(10, 10, 90);
+    ellipse(gameChar_x + 16, gameChar_y - 54, 6, 5);
+
+    // MOUTH
+    fill(200, 50, 50); 
+    arc(gameChar_x + 10, gameChar_y - 48, 10, 6, 0, PI, CHORD);
 
     // BODY
     fill(200, 30, 50);
@@ -621,7 +638,7 @@ function startGame(){
     game_score = 0;
     isComplete = false;
     flagpole = {isReached:false, x_pos: 1700}
-    enemyy = new Enemy(200, 432, 100);
+    enemyy = new Enemy(200, 412, 100);
 }
 
 function Enemy(x,y, range) {
@@ -640,10 +657,23 @@ function Enemy(x,y, range) {
         }
     };
 
-    this.drawEnemy = function() {
+      this.drawEnemy = function() {
         this.move();
         fill(200, 20, 20);
-        ellipse(this.currentX, this.y, 20);
+        ellipse(this.currentX, this.y, 30, 30);
+
+        fill(0);
+        ellipse(this.currentX - 7, this.y - 5, 6, 6);
+        ellipse(this.currentX + 7, this.y - 5, 6, 6);
+        stroke(0);
+        strokeWeight(3);
+        line(this.currentX - 12, this.y - 12, this.currentX - 3, this.y - 8);
+        line(this.currentX + 12, this.y - 12, this.currentX + 3, this.y - 8);
+
+        noFill();
+        stroke(0);
+        strokeWeight(2);
+        arc(this.currentX, this.y + 10, 15, 10, PI, 0);
     };
     this.contact = function(){
         this.dist = dist(gameChar_x, gameChar_y, this.currentX, this.y)
