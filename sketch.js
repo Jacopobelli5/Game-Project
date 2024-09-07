@@ -27,7 +27,7 @@ var flagpole;
 var lives;
 var isDead = false;
 var isComplete = false;
-var numOfPlays;
+var numOfPlays; //Variable used to prevent a sound loop on game over behaviour
 
 function preload() {
   soundFormats("mp3", "wav");
@@ -105,7 +105,7 @@ function draw() {
   drawGameCharacter();
 
   // DRAW ENEMY
-  for(i = 0; i < enemies.length; i++){
+  for (i = 0; i < enemies.length; i++) {
     enemies[i].drawEnemy();
     enemies[i].contact();
   }
@@ -207,11 +207,14 @@ function keyReleased() {
 function drawGameCharacter() {
   if (lives < 1) {
     //Game Over Character
+    stroke(0);
+    strokeWeight(1);
     fill(5, 10, 10);
     rect(gameChar_x - 10, gameChar_y - 65, 40, 5);
     rect(gameChar_x, gameChar_y - 75, 20, 15);
     fill(155, 200, 100);
     rect(gameChar_x - 3, gameChar_y - 60, 26, 20);
+    noStroke();
 
     // EYE
     fill(10, 10, 90);
@@ -222,6 +225,7 @@ function drawGameCharacter() {
 
     // MOUTH
     fill(200, 50, 50);
+    //New P5.js functin I found on the documentation
     arc(gameChar_x + 10, gameChar_y - 44, 10, 6, PI, PI * 2, CHORD);
 
     // BODY
@@ -247,11 +251,14 @@ function drawGameCharacter() {
 
   if (isComplete == true) {
     //Winning Character
+    stroke(0);
+    strokeWeight(1);
     fill(5, 10, 10);
     rect(gameChar_x - 10, gameChar_y - 65, 40, 5);
     rect(gameChar_x, gameChar_y - 75, 20, 15);
     fill(155, 200, 100);
     rect(gameChar_x - 3, gameChar_y - 60, 26, 20);
+    noStroke();
 
     // EYE
     fill(10, 10, 90);
@@ -287,11 +294,14 @@ function drawGameCharacter() {
   if (isLeft && isFalling) {
     // add your jumping-left code
     // HEAD
+    stroke(0);
+    strokeWeight(1);
     fill(5, 10, 10);
     rect(gameChar_x - 10, gameChar_y - 65, 40, 5);
     rect(gameChar_x, gameChar_y - 75, 20, 15);
     fill(155, 200, 100);
     rect(gameChar_x - 3, gameChar_y - 60, 26, 20);
+    noStroke();
     // EYE
     fill(10, 10, 90);
     ellipse(gameChar_x + 3, gameChar_y - 54, 6, 5);
@@ -313,11 +323,14 @@ function drawGameCharacter() {
   } else if (isRight && isFalling) {
     // add your jumping-right code
     // HEAD
+    stroke(0);
+    strokeWeight(1);
     fill(5, 10, 10);
     rect(gameChar_x - 10, gameChar_y - 65, 40, 5);
     rect(gameChar_x, gameChar_y - 75, 20, 15);
     fill(155, 200, 100);
     rect(gameChar_x - 3, gameChar_y - 60, 26, 20);
+    noStroke();
 
     // EYE
     fill(10, 10, 90);
@@ -342,11 +355,14 @@ function drawGameCharacter() {
   } else if (isLeft && gameChar_x > limitWorldLeft) {
     // add your walking left code
     // HEAD
+    stroke(0);
+    strokeWeight(1);
     fill(5, 10, 10);
     rect(gameChar_x - 10, gameChar_y - 65, 40, 5);
     rect(gameChar_x, gameChar_y - 75, 20, 15);
     fill(155, 200, 100);
     rect(gameChar_x - 3, gameChar_y - 60, 26, 20);
+    noStroke();
     // EYE
     fill(10, 10, 90);
     ellipse(gameChar_x + 3, gameChar_y - 54, 6, 5);
@@ -360,11 +376,14 @@ function drawGameCharacter() {
   } else if (isRight && gameChar_x < limitWorldRight) {
     // add your walking right code
     // HEAD
+    stroke(0);
+    strokeWeight(1);
     fill(5, 10, 10);
     rect(gameChar_x - 10, gameChar_y - 65, 40, 5);
     rect(gameChar_x, gameChar_y - 75, 20, 15);
     fill(155, 200, 100);
     rect(gameChar_x - 3, gameChar_y - 60, 26, 20);
+    noStroke();
 
     // EYE
     fill(10, 10, 90);
@@ -381,11 +400,14 @@ function drawGameCharacter() {
   } else if (isFalling || isPlummeting) {
     // add your jumping facing forwards code
     // HEAD
+    stroke(0);
+    strokeWeight(1);
     fill(5, 10, 10);
     rect(gameChar_x - 10, gameChar_y - 65, 40, 5);
     rect(gameChar_x, gameChar_y - 75, 20, 15);
     fill(155, 200, 100);
     rect(gameChar_x - 3, gameChar_y - 60, 26, 20);
+    noStroke();
 
     // EYE
     fill(10, 10, 90);
@@ -419,11 +441,14 @@ function drawGameCharacter() {
   } else {
     // add your standing front facing code
     // HEAD
+    stroke(0);
+    strokeWeight(1);
     fill(5, 10, 10);
     rect(gameChar_x - 10, gameChar_y - 65, 40, 5);
     rect(gameChar_x, gameChar_y - 75, 20, 15);
     fill(155, 200, 100);
     rect(gameChar_x - 3, gameChar_y - 60, 26, 20);
+    noStroke();
 
     // EYES
     fill(10, 10, 90);
@@ -434,6 +459,7 @@ function drawGameCharacter() {
 
     // MOUTH
     fill(200, 50, 50);
+    //New P5.js function found on the documentation
     arc(gameChar_x + 10, gameChar_y - 48, 10, 6, 0, PI, CHORD);
 
     // BODY
@@ -656,10 +682,10 @@ function startGame() {
   game_score = 0;
   isComplete = false;
   flagpole = { isReached: false, x_pos: 3100 };
-  enemies= [];
-  enemies.push(new Enemy(850, 419, 100))
-  enemies.push(new Enemy(1550, 419, 100))
-  enemies.push(new Enemy(2450, 419, 150))
+  enemies = [];
+  enemies.push(new Enemy(850, 419, 100));
+  enemies.push(new Enemy(1550, 419, 100));
+  enemies.push(new Enemy(2450, 419, 150));
 }
 
 function Enemy(x, y, range) {
@@ -682,7 +708,7 @@ function Enemy(x, y, range) {
     this.move();
     fill(200, 20, 20);
     stroke(0);
-    strokeWeight(1)
+    strokeWeight(1);
     ellipse(this.currentX, this.y, 30, 30);
 
     fill(0);
