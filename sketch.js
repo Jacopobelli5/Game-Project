@@ -27,12 +27,17 @@ var flagpole;
 var lives;
 var isDead = false;
 var isComplete = false;
+var numOfPlays;
 
 function preload()
 {
     soundFormats('mp3','wav');
     jumpSound = loadSound('assets/jump.wav');
+    coinSound = loadSound('assets/coin.wav');
+    loseSound = loadSound('assets/lose.wav')
     jumpSound.setVolume(0.1);
+    coinSound.setVolume(0.1);
+    loseSound.setVolume(0.1);
 }
 
 
@@ -218,8 +223,8 @@ function drawGameCharacter() {
     ellipse(gameChar_x + 16, gameChar_y - 54, 6, 5);
 
     // MOUTH
-    fill(200, 50, 50); 
-    arc(gameChar_x + 10, gameChar_y - 44, 10, 6, PI, PI *2, CHORD);
+    fill(200, 50, 50);
+    arc(gameChar_x + 10, gameChar_y - 44, 10, 6, PI, PI * 2, CHORD);
 
     // BODY
     fill(200, 30, 50);
@@ -257,9 +262,8 @@ function drawGameCharacter() {
     ellipse(gameChar_x + 16, gameChar_y - 54, 6, 5);
 
     // MOUTH
-    fill(200, 50, 50); 
+    fill(200, 50, 50);
     arc(gameChar_x + 10, gameChar_y - 48, 10, 6, 0, PI, CHORD);
- 
 
     // BODY
     fill(200, 30, 50);
@@ -392,8 +396,8 @@ function drawGameCharacter() {
     ellipse(gameChar_x + 16, gameChar_y - 54, 6, 5);
 
     // MOUTH
-    fill(200, 50, 50); 
-    arc(gameChar_x + 10, gameChar_y - 44, 10, 6, PI, PI *2, CHORD);
+    fill(200, 50, 50);
+    arc(gameChar_x + 10, gameChar_y - 44, 10, 6, PI, PI * 2, CHORD);
 
     // BODY
     fill(200, 30, 50);
@@ -430,7 +434,7 @@ function drawGameCharacter() {
     ellipse(gameChar_x + 16, gameChar_y - 54, 6, 5);
 
     // MOUTH
-    fill(200, 50, 50); 
+    fill(200, 50, 50);
     arc(gameChar_x + 10, gameChar_y - 48, 10, 6, 0, PI, CHORD);
 
     // BODY
@@ -444,14 +448,16 @@ function drawGameCharacter() {
   }
 }
 
+
 function drawClouds() {
-    for (i = 0; i < clouds.length; i++) {
-        fill(255, 255, 255);
-        ellipse(clouds[i].x_pos, clouds[i].y_pos, 100, 50);
-        ellipse(clouds[i].x_pos - 20, clouds[i].y_pos - 11, 68, 60);
-        ellipse(clouds[i].x_pos, clouds[i].y_pos - 13, 60, 50);
-    }
+  for (i = 0; i < clouds.length; i++) {
+    fill(255, 255, 255);
+    ellipse(clouds[i].x_pos, clouds[i].y_pos, 100, 50);
+    ellipse(clouds[i].x_pos - 20, clouds[i].y_pos - 11, 68, 60);
+    ellipse(clouds[i].x_pos, clouds[i].y_pos - 13, 60, 50);
+  }
 }
+
 
 function drawTrees() {
   for (let i = 0; i < trees_x.length; i++) {
@@ -480,50 +486,52 @@ function drawTrees() {
   }
 }
 
+
 function drawMountains() {
-    for (let i = 0; i < 4; i++) {
-        fill(120, 100, 80);
-        triangle(
-            mountains[i].x_pos,
-            mountains[i].y_pos,
-            mountains[i].x_pos + 180,
-            mountains[i].y_pos - 350,
-            mountains[i].x_pos + 360,
-            mountains[i].y_pos
-        );
+  for (let i = 0; i < 4; i++) {
+    fill(120, 100, 80);
+    triangle(
+      mountains[i].x_pos,
+      mountains[i].y_pos,
+      mountains[i].x_pos + 180,
+      mountains[i].y_pos - 350,
+      mountains[i].x_pos + 360,
+      mountains[i].y_pos
+    );
 
-        fill(160, 140, 120);
-        triangle(
-            mountains[i].x_pos + 90,
-            mountains[i].y_pos,
-            mountains[i].x_pos + 180,
-            mountains[i].y_pos - 350,
-            mountains[i].x_pos + 270,
-            mountains[i].y_pos
-        );
-    }
+    fill(160, 140, 120);
+    triangle(
+      mountains[i].x_pos + 90,
+      mountains[i].y_pos,
+      mountains[i].x_pos + 180,
+      mountains[i].y_pos - 350,
+      mountains[i].x_pos + 270,
+      mountains[i].y_pos
+    );
+  }
 }
-
 
 
 function drawCanyon(t_canyon) {
-    fill(200, 155, 255);
-    rect(t_canyon.x_pos, 432, t_canyon.width, 800);
-    fill(140, 90, 80);
-    rect(t_canyon.x_pos - 20, 432, 20, 800);
-    fill(140, 90, 80);
-    rect(t_canyon.x_pos + 80, 432, 20, 800);
+  fill(200, 155, 255);
+  rect(t_canyon.x_pos, 432, t_canyon.width, 800);
+  fill(140, 90, 80);
+  rect(t_canyon.x_pos - 20, 432, 20, 800);
+  fill(140, 90, 80);
+  rect(t_canyon.x_pos + t_canyon.width, 432, 20, 800);
 }
 
+
 function checkCanyon(t_canyon) {
-    if (
-        gameChar_x > t_canyon.x_pos &&
-        gameChar_x < t_canyon.x_pos + (t_canyon.width - 35) &&
-        isFalling == false
-    ) {
-        isPlummeting = true;
-    }
+  if (
+    gameChar_x > t_canyon.x_pos &&
+    gameChar_x < t_canyon.x_pos + (t_canyon.width - 10) &&
+    isFalling == false
+  ) {
+    isPlummeting = true;
+  }
 }
+
 
 function drawCollectable(t_collectable) {
   if (!collectables[i].isFound) {
@@ -548,137 +556,160 @@ function drawCollectable(t_collectable) {
   }
 }
 
+
 function checkCollectable(t_collectable) {
-    if (
-        dist(gameChar_x, gameChar_y, t_collectable.x_pos, t_collectable.y_pos) <
-        t_collectable.size
-    ) {
-        t_collectable.isFound = true;
-        game_score += 1;
-        console.log("Got one!");
-    }
+  if (
+    dist(gameChar_x, gameChar_y, t_collectable.x_pos, t_collectable.y_pos) <
+    t_collectable.size
+  ) {
+    t_collectable.isFound = true;
+    coinSound.play();
+    game_score += 1;
+    console.log("Got one!");
+  }
 }
+
 
 function drawFlagpole() {
-    push();
-    strokeWeight(10);
+  push();
+  strokeWeight(10);
+  stroke(255);
+  line(flagpole.x_pos, floorPos_y, flagpole.x_pos, floorPos_y - 250);
+
+  if (flagpole.isReached) {
+    fill(55, 250, 50);
     stroke(255);
-    line(flagpole.x_pos, floorPos_y, flagpole.x_pos, floorPos_y - 250);
+    strokeWeight(3);
+    rect(flagpole.x_pos + 10, floorPos_y - 250, 50, 30);
+  } else {
+    fill(189, 0, 0);
+    stroke(255);
+    strokeWeight(3);
+    rect(flagpole.x_pos + 10, floorPos_y - 50, 50, 30);
+  }
 
-    if (flagpole.isReached) {
-        fill(55, 250, 50); 
-        stroke(255);
-        strokeWeight(3);
-        rect(flagpole.x_pos + 10, floorPos_y - 250, 50, 30);
+  pop();
+}
+
+
+function checkFlagpole() {
+  var d = abs(gameChar_x - flagpole.x_pos);
+  if (d < 10) {
+    flagpole.isReached = true;
+    isComplete = true;
+  }
+}
+
+
+function checkPlayerDie() {
+  //I have implemented numOfPlays var to prevent a sound loop when game over
+  if (isDead) {
+    lives -= 1;
+    if (lives > 0) {
+      loseSound.play();
+      isPlummeting = false;
+      startGame();
     } else {
-        fill(189, 0, 0);
-        stroke(255);
-        strokeWeight(3);
-        rect(flagpole.x_pos + 10, floorPos_y - 50, 50, 30);
+      //I found online this practical way of implementing if statements on one line
+      if (numOfPlays < 1) {
+        loseSound.play();
+      }
+      numOfPlays = 1;
+      lives = 0;
     }
-
-    pop();
+    isDead = false;
+  }
 }
 
 
+function startGame() {
+  gameChar_x = width / 2;
+  gameChar_y = floorPos_y;
+  numOfPlays = 0;
+  canyons = [
+    { x_pos: 570, width: 100 },
+    { x_pos: 1370, width: 100 },
+    { x_pos: 2070, width: 50 },
+    { x_pos: 2770, width: 120 },
 
-
-
-function checkFlagpole(){
-    var d = abs(gameChar_x - flagpole.x_pos)
-    if(d < 10){
-        flagpole.isReached = true;
-        isComplete = true;
-    }
+  ];
+  collectables = [
+    { x_pos: 700, y_pos: 410, size: 39, isFound: false },
+    { x_pos: 1300, y_pos: 410, size: 39, isFound: false },
+    { x_pos: 100, y_pos: 410, size: 39, isFound: false },
+  ];
+  trees_x = [200, 390, 800, 1020, 1500, 1900, 2200, 2400];
+  treePos_y = gameChar_y;
+  clouds = [
+    { x_pos: 600, y_pos: 120 },
+    { x_pos: 200, y_pos: 100 },
+    { x_pos: 800, y_pos: 80 },
+    { x_pos: 1280, y_pos: 100 },
+    { x_pos: 1500, y_pos: 90 },
+    { x_pos: 1700, y_pos: 100 },
+    { x_pos: 2200, y_pos: 90 },
+    { x_pos: 2400, y_pos: 110 },
+    { x_pos: 2900, y_pos: 90 },
+    { x_pos: 3200, y_pos: 120 },
+  ];
+  mountains = [
+    { x_pos: 160, y_pos: 432 },
+    { x_pos: 780, y_pos: 432 },
+    { x_pos: 1680, y_pos: 432 },
+    { x_pos: 980, y_pos: 432 },
+    { x_pos: 1400, y_pos: 432 },
+    { x_pos: 2280, y_pos: 432 },
+    { x_pos: 2680, y_pos: 432 },
+    { x_pos: 3580, y_pos: 432 },
+  ];
+  cameraPosx = 0;
+  limitWorldRight = 3300;
+  limitWorldLeft = 0;
+  game_score = 0;
+  isComplete = false;
+  flagpole = { isReached: false, x_pos: 3000 };
+  enemyy = new Enemy(200, 419, 100);
 }
 
-function checkPlayerDie(){
-    if(isDead){
-        lives -= 1;
-        if(lives > 0){
-            isPlummeting = false
-            startGame()
-        }else{
-            lives = 0
-        }
-        isDead = false;
+
+function Enemy(x, y, range) {
+  this.x = x;
+  this.y = y;
+  this.range = range;
+  this.currentX = x;
+  this.inc = 2;
+
+  this.move = function () {
+    this.currentX += this.inc;
+    if (this.currentX >= this.x + this.range) {
+      this.inc = -2;
+    } else if (this.currentX <= this.x) {
+      this.inc = 2;
     }
-}
+  };
 
-function startGame(){
-    gameChar_x = width / 2;
-    gameChar_y = floorPos_y;
-    canyons = [
-        { x_pos: 570, width: 100 },
-        { x_pos: 1370, width: 100 },
-    ];
-    collectables = [
-        { x_pos: 700, y_pos: 410, size: 39, isFound: false },
-        { x_pos: 1300, y_pos: 410, size: 39, isFound: false },
-        { x_pos: 100, y_pos: 410, size: 39, isFound: false },
-    ];
-    trees_x = [200, 390, 800, 1020, 1500];
-    treePos_y = gameChar_y ;
-    clouds = [
-        { x_pos: 600, y_pos: 120 },
-        { x_pos: 200, y_pos: 100 },
-        { x_pos: 800, y_pos: 80 },
-        { x_pos: 1280, y_pos: 100 },
-        { x_pos: 1500, y_pos: 90 },
-    ];
-    mountains = [
-        { x_pos: 160, y_pos: 432 },
-        { x_pos: 780, y_pos: 432 },
-        { x_pos: 1680, y_pos: 432 },
-        { x_pos: 980, y_pos: 432 },
-    ];
-    cameraPosx = 0;
-    limitWorldRight = 1900;
-    limitWorldLeft = 0;
-    game_score = 0;
-    isComplete = false;
-    flagpole = {isReached:false, x_pos: 1700}
-    enemyy = new Enemy(200, 412, 100);
-}
+  this.drawEnemy = function () {
+    this.move();
+    fill(200, 20, 20);
+    ellipse(this.currentX, this.y, 30, 30);
 
-function Enemy(x,y, range) {
-    this.x = x;
-    this.y = y;
-    this.range = range;
-    this.currentX = x;
-    this.inc = 2; 
+    fill(0);
+    ellipse(this.currentX - 7, this.y - 5, 6, 6);
+    ellipse(this.currentX + 7, this.y - 5, 6, 6);
+    stroke(0);
+    strokeWeight(3);
+    line(this.currentX - 12, this.y - 12, this.currentX - 3, this.y - 8);
+    line(this.currentX + 12, this.y - 12, this.currentX + 3, this.y - 8);
 
-    this.move = function() {
-        this.currentX += this.inc;
-        if (this.currentX >= this.x + this.range) {
-            this.inc = -2;
-        } else if (this.currentX <= this.x) {
-            this.inc = 2;
-        }
-    };
-
-      this.drawEnemy = function() {
-        this.move();
-        fill(200, 20, 20);
-        ellipse(this.currentX, this.y, 30, 30);
-
-        fill(0);
-        ellipse(this.currentX - 7, this.y - 5, 6, 6);
-        ellipse(this.currentX + 7, this.y - 5, 6, 6);
-        stroke(0);
-        strokeWeight(3);
-        line(this.currentX - 12, this.y - 12, this.currentX - 3, this.y - 8);
-        line(this.currentX + 12, this.y - 12, this.currentX + 3, this.y - 8);
-
-        noFill();
-        stroke(0);
-        strokeWeight(2);
-        arc(this.currentX, this.y + 10, 15, 10, PI, 0);
-    };
-    this.contact = function(){
-        this.dist = dist(gameChar_x, gameChar_y, this.currentX, this.y)
-        if(this.dist < 20){
-            isDead = true;
-        }
+    noFill();
+    stroke(0);
+    strokeWeight(2);
+    arc(this.currentX, this.y + 10, 15, 10, PI, 0);
+  };
+  this.contact = function () {
+    this.dist = dist(gameChar_x, gameChar_y, this.currentX, this.y);
+    if (this.dist < 20) {
+      isDead = true;
     }
+  };
 }
