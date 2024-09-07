@@ -28,6 +28,7 @@ var lives;
 var isDead = false;
 var isComplete = false;
 var numOfPlays; //Variable used to prevent a sound loop on game over behaviour
+var platforms;
 
 function preload() {
   soundFormats("mp3", "wav");
@@ -101,6 +102,11 @@ function draw() {
   // DRAW FLAGPOLE
   drawFlagpole();
 
+  // PLATFORMS HERE
+  for (i = 0; i < platforms.length; i++) {
+    platforms[i].draw();
+  }
+
   // DRAW CHARACTER
   drawGameCharacter();
 
@@ -154,10 +160,22 @@ function draw() {
 
   // JUMPING INTERACTION
   if (gameChar_y < floorPos_y) {
-    gameChar_y += 3;
-    isFalling = true;
-  } else if (gameChar_y >= floorPos_y) {
+    var isContact = false;
+    for (i = 0; i < platforms.length; i++) {
+      if (platforms[i].checkContact(gameChar_x, gameChar_y) == true) {
+        isContact = true;
+        isFalling = false;
+        break;
+      }
+    }
+    if (isContact == false) {
+      gameChar_y += 3;
+      isFalling = true;
+    }
+  } else {
+    console.log("hey");
     isFalling = false;
+    isContact = true;
   }
 
   // PLUMMETING INTERACTION
@@ -641,16 +659,18 @@ function startGame() {
   gameChar_y = floorPos_y;
   numOfPlays = 0;
   canyons = [
-    { x_pos: 570, width: 100 },
+    { x_pos: 590, width: 100 },
     { x_pos: 1370, width: 100 },
     { x_pos: 2070, width: 50 },
     { x_pos: 2150, width: 80 },
     { x_pos: 2770, width: 120 },
   ];
   collectables = [
-    { x_pos: 700, y_pos: 410, size: 39, isFound: false },
+    { x_pos: 980, y_pos: 410, size: 39, isFound: false },
     { x_pos: 1300, y_pos: 410, size: 39, isFound: false },
+    { x_pos: 1850, y_pos: 240, size: 39, isFound: false },
     { x_pos: 100, y_pos: 410, size: 39, isFound: false },
+    { x_pos: 3090, y_pos: 290, size: 39, isFound: false },
   ];
   trees_x = [200, 390, 800, 1020, 1500, 1900, 2300, 2550];
   treePos_y = gameChar_y;
@@ -686,6 +706,12 @@ function startGame() {
   enemies.push(new Enemy(850, 419, 100));
   enemies.push(new Enemy(1550, 419, 100));
   enemies.push(new Enemy(2450, 419, 150));
+  platforms = [];
+  platforms.push(createPlatform(860, 360, 100));
+  platforms.push(createPlatform(1580, 370, 150));
+  platforms.push(createPlatform(1680, 300, 100));
+  platforms.push(createPlatform(3000, 360, 60));
+
 }
 
 function Enemy(x, y, range) {
@@ -731,4 +757,30 @@ function Enemy(x, y, range) {
       isDead = true;
     }
   };
+}
+
+function createPlatform(x, y, length) {
+  var p = {
+    x: x,
+    y: y,
+    length: length,
+    draw: function () {
+      fill(170, 170, 170);
+      stroke(120, 120, 120);
+      strokeWeight(2);
+      rect(this.x, this.y, this.length, 20);
+      fill(140, 140, 140);
+      rect(this.x, this.y + 20, this.length, 5);
+    },
+    checkContact: function (g_x, g_y) {
+      if (g_x > (this.x - 15) && g_x < this.x + this.length) {
+        var d = this.y + 2 - g_y;
+        if (d >= 0 && d < 5) {
+          return true;
+        }
+        return false;
+      }
+    },
+  };
+  return p;
 }
