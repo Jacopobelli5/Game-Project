@@ -1,11 +1,5 @@
 /*
-
-- Copy your game project code into this file
-- for the p5.Sound library look here https://p5js.org/reference/#/libraries/p5.sound
-- for finding cool sounds perhaps look here
-https://freesound.org/
-
-
+GAME PROJECT FINAL
 */
 var jumpSound;
 var gameChar_x;
@@ -31,6 +25,7 @@ var numOfPlays; //Variable used to prevent a sound loop on game over behaviour
 var platforms;
 
 function preload() {
+  //loading game sounds
   soundFormats("mp3", "wav");
   jumpSound = loadSound("assets/jump.wav");
   coinSound = loadSound("assets/coin.wav");
@@ -57,11 +52,10 @@ function draw() {
 
   // DRAW THE GROUND
   noStroke();
-  fill(0, 155, 0);
+  fill(50, 165, 40);
   rect(0, floorPos_y, width, height - floorPos_y);
 
   // CAMERA MOVEMENTS
-
   if (isRight && !isPlummeting && cameraPosx < limitWorldRight - width) {
     cameraPosx += 3;
   }
@@ -86,19 +80,20 @@ function draw() {
   // CANYONS HERE //
   for (i = 0; i < canyons.length; i++) {
     drawCanyon(canyons[i]);
-    // FALLING INTO THE CANYON INTERACTION
+    // Falling into the canyon event
     checkCanyon(canyons[i]);
   }
 
   // COLLECTABLES HERE //
   for (i = 0; i < collectables.length; i++) {
-    // DRAW THE COLLECTABLE IF NOT FOUND
+    // Draw the collectable
     if (!collectables[i].isFound) {
       drawCollectable(collectables[i]);
-      // COLLECT COLLECTABLES
+      // Collect it
       checkCollectable(collectables[i]);
     }
   }
+
   // DRAW FLAGPOLE
   drawFlagpole();
 
@@ -165,6 +160,7 @@ function draw() {
   // JUMPING INTERACTION
   if (gameChar_y < floorPos_y) {
     var isContact = false;
+    // Platform interaction
     for (i = 0; i < platforms.length; i++) {
       if (platforms[i].checkContact(gameChar_x, gameChar_y) == true) {
         isContact = true;
@@ -177,7 +173,6 @@ function draw() {
       isFalling = true;
     }
   } else {
-    console.log("hey");
     isFalling = false;
     isContact = true;
   }
@@ -192,8 +187,7 @@ function draw() {
   }
 }
 
-// Function to control the animation of the character when
-// keys are pressed.
+// Function to control the animation of the character when keys are pressed.
 function keyPressed() {
   //flagpole check, if checked then palyer won't be able to move
   if (keyCode == 65) {
@@ -205,7 +199,7 @@ function keyPressed() {
     jumpSound.play();
   }
 
-  //RESET GAME AFTER GAME OVER OR WINNING
+  //Reset game when game over or winning
   if (
     (flagpole.isReached == true && keyCode == 32) ||
     (lives < 1 && keyCode == 32)
@@ -217,8 +211,7 @@ function keyPressed() {
 }
 
 function keyReleased() {
-  // if statements to control the animation of the character when
-  // keys are released.
+  // if statements to control the animation of the character when keys are released.
   if (keyCode == 65) {
     isLeft = false;
   } else if (keyCode == 68) {
@@ -227,8 +220,8 @@ function keyReleased() {
 }
 
 function drawGameCharacter() {
+  //Game Over Character
   if (lives < 1) {
-    //Game Over Character
     stroke(0);
     strokeWeight(1);
     fill(5, 10, 10);
@@ -241,7 +234,6 @@ function drawGameCharacter() {
     // EYE
     fill(10, 10, 90);
     ellipse(gameChar_x + 3, gameChar_y - 54, 6, 5);
-
     fill(10, 10, 90);
     ellipse(gameChar_x + 16, gameChar_y - 54, 6, 5);
 
@@ -285,7 +277,6 @@ function drawGameCharacter() {
     // EYE
     fill(10, 10, 90);
     ellipse(gameChar_x + 3, gameChar_y - 54, 6, 5);
-
     fill(10, 10, 90);
     ellipse(gameChar_x + 16, gameChar_y - 54, 6, 5);
 
@@ -314,7 +305,7 @@ function drawGameCharacter() {
     return;
   }
   if (isLeft && isFalling) {
-    // add your jumping-left code
+    // jumping-left
     // HEAD
     stroke(0);
     strokeWeight(1);
@@ -324,12 +315,15 @@ function drawGameCharacter() {
     fill(155, 200, 100);
     rect(gameChar_x - 3, gameChar_y - 60, 26, 20);
     noStroke();
+
     // EYE
     fill(10, 10, 90);
     ellipse(gameChar_x + 3, gameChar_y - 54, 6, 5);
+
     // BODY
     fill(200, 30, 50);
     rect(gameChar_x, gameChar_y - 40, 20, 27);
+
     // FEET
     fill(10, 80, 200);
     beginShape();
@@ -343,7 +337,7 @@ function drawGameCharacter() {
     endShape();
     gameChar_x -= 3;
   } else if (isRight && isFalling) {
-    // add your jumping-right code
+    // jumping-right
     // HEAD
     stroke(0);
     strokeWeight(1);
@@ -375,7 +369,7 @@ function drawGameCharacter() {
     endShape();
     gameChar_x += 3;
   } else if (isLeft && gameChar_x > limitWorldLeft) {
-    // add your walking left code
+    // walking left
     // HEAD
     stroke(0);
     strokeWeight(1);
@@ -385,18 +379,21 @@ function drawGameCharacter() {
     fill(155, 200, 100);
     rect(gameChar_x - 3, gameChar_y - 60, 26, 20);
     noStroke();
+
     // EYE
     fill(10, 10, 90);
     ellipse(gameChar_x + 3, gameChar_y - 54, 6, 5);
+
     // BODY
     fill(200, 30, 50);
     rect(gameChar_x, gameChar_y - 40, 20, 27);
+
     // FEET
     fill(10, 80, 200);
     rect(gameChar_x + 3, gameChar_y - 13, 15, 13);
     gameChar_x -= 3;
   } else if (isRight && gameChar_x < limitWorldRight) {
-    // add your walking right code
+    // walking right
     // HEAD
     stroke(0);
     strokeWeight(1);
@@ -420,7 +417,7 @@ function drawGameCharacter() {
     rect(gameChar_x + 3, gameChar_y - 13, 15, 13);
     gameChar_x += 3;
   } else if (isFalling || isPlummeting) {
-    // add your jumping facing forwards code
+    // jumping facing forwards
     // HEAD
     stroke(0);
     strokeWeight(1);
@@ -431,10 +428,9 @@ function drawGameCharacter() {
     rect(gameChar_x - 3, gameChar_y - 60, 26, 20);
     noStroke();
 
-    // EYE
+    // EYES
     fill(10, 10, 90);
     ellipse(gameChar_x + 3, gameChar_y - 54, 6, 5);
-
     fill(10, 10, 90);
     ellipse(gameChar_x + 16, gameChar_y - 54, 6, 5);
 
@@ -461,7 +457,7 @@ function drawGameCharacter() {
     vertex(gameChar_x + 7, gameChar_y - 13);
     endShape();
   } else {
-    // add your standing front facing code
+    // standing front facing
     // HEAD
     stroke(0);
     strokeWeight(1);
@@ -475,7 +471,6 @@ function drawGameCharacter() {
     // EYES
     fill(10, 10, 90);
     ellipse(gameChar_x + 3, gameChar_y - 54, 6, 5);
-
     fill(10, 10, 90);
     ellipse(gameChar_x + 16, gameChar_y - 54, 6, 5);
 
@@ -565,6 +560,7 @@ function drawCanyon(t_canyon) {
 }
 
 function checkCanyon(t_canyon) {
+  // player falling into the canyon
   if (
     gameChar_x > t_canyon.x_pos &&
     gameChar_x < t_canyon.x_pos + (t_canyon.width - 10) &&
@@ -598,6 +594,7 @@ function drawCollectable(t_collectable) {
 }
 
 function checkCollectable(t_collectable) {
+  // player collecting collectables
   if (
     dist(gameChar_x, gameChar_y, t_collectable.x_pos, t_collectable.y_pos) <
     t_collectable.size
@@ -605,7 +602,6 @@ function checkCollectable(t_collectable) {
     t_collectable.isFound = true;
     coinSound.play();
     game_score += 1;
-    console.log("Got one!");
   }
 }
 
@@ -631,6 +627,7 @@ function drawFlagpole() {
 }
 
 function checkFlagpole() {
+  // player winning event
   var d = abs(gameChar_x - flagpole.x_pos);
   if (d < 10) {
     flagpole.isReached = true;
@@ -639,7 +636,8 @@ function checkFlagpole() {
 }
 
 function checkPlayerDie() {
-  //I have implemented numOfPlays var to prevent a sound loop when game over
+  // player lose
+  // I have implemented numOfPlays var to prevent a sound loop when game over
   if (isDead) {
     lives -= 1;
     if (lives > 0) {
@@ -647,7 +645,7 @@ function checkPlayerDie() {
       isPlummeting = false;
       startGame();
     } else {
-      //I found online this practical way of implementing if statements on one line
+      // I found online this practical way of implementing if statements on one line
       if (numOfPlays < 1) {
         loseSound.play();
       }
@@ -659,6 +657,7 @@ function checkPlayerDie() {
 }
 
 function startGame() {
+  //reset game to default state
   gameChar_x = width / 2;
   gameChar_y = floorPos_y;
   numOfPlays = 0;
@@ -724,6 +723,7 @@ function Enemy(x, y, range) {
   this.inc = 2;
 
   this.move = function () {
+    // moving enemy event
     this.currentX += this.inc;
     if (this.currentX >= this.x + this.range) {
       this.inc = -2;
@@ -754,6 +754,7 @@ function Enemy(x, y, range) {
     noStroke();
   };
   this.contact = function () {
+    // checking contact with character - lose interaction
     this.dist = dist(gameChar_x, gameChar_y, this.currentX, this.y);
     if (this.dist < 20) {
       isDead = true;
@@ -775,6 +776,7 @@ function createPlatform(x, y, length) {
       rect(this.x, this.y + 20, this.length, 5);
     },
     checkContact: function (g_x, g_y) {
+      // checking contact with character
       if (g_x > (this.x - 15) && g_x < this.x + this.length) {
         var d = this.y + 2 - g_y;
         if (d >= 0 && d < 5) {
