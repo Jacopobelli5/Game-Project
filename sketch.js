@@ -121,9 +121,10 @@ function draw() {
   // CHECK GAME OVER OR LEVEL COMPLETE
   if (flagpole.isReached == true) {
     push();
-    strokeWeight(3);
+    strokeWeight(1);
     stroke(10);
-    fill(20, 200, 20);
+    fill(20, 180, 20);
+    textSize(20)
     text("Level complete! Press space to continue", 500, 100);
     pop();
   }
@@ -131,7 +132,7 @@ function draw() {
     push();
     strokeWeight(1);
     stroke(2);
-    fill(30, 200, 20);
+    fill(190, 30, 20);
     textSize(20);
     text("Game Over! Press space to continue", 500, 100);
     pop();
@@ -148,12 +149,15 @@ function draw() {
 
   //SCORE COUNT TEXT
   fill(255);
-  noStroke();
+  stroke(1);
+  strokeWeight(3);
   text("Score: " + game_score, 20, 20);
 
   //LIVES COUNT TEXT
   fill(255);
-  noStroke();
+  stroke(1);
+  strokeWeight(3);
+  textSize(15);
   text("Lives: " + lives, width - 80, 20);
 
   ///////////INTERACTION CODE//////////
@@ -528,7 +532,7 @@ function drawTrees() {
 }
 
 function drawMountains() {
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < mountains.length; i++) {
     fill(120, 100, 80);
     triangle(
       mountains[i].x_pos,
@@ -659,6 +663,7 @@ function startGame() {
   gameChar_y = floorPos_y;
   numOfPlays = 0;
   canyons = [
+    { x_pos: -990, width: 800 },
     { x_pos: 590, width: 100 },
     { x_pos: 1370, width: 100 },
     { x_pos: 2070, width: 50 },
@@ -668,11 +673,11 @@ function startGame() {
   collectables = [
     { x_pos: 980, y_pos: 410, size: 39, isFound: false },
     { x_pos: 1300, y_pos: 410, size: 39, isFound: false },
-    { x_pos: 1850, y_pos: 240, size: 39, isFound: false },
+    { x_pos: 1870, y_pos: 240, size: 39, isFound: false },
     { x_pos: 100, y_pos: 410, size: 39, isFound: false },
     { x_pos: 3090, y_pos: 290, size: 39, isFound: false },
   ];
-  trees_x = [200, 390, 800, 1020, 1500, 1900, 2300, 2550];
+  trees_x = [-10,200, 390, 800, 1020, 1500, 1900, 2300, 2550, 2670];
   treePos_y = gameChar_y;
   clouds = [
     { x_pos: 600, y_pos: 120 },
@@ -689,12 +694,9 @@ function startGame() {
   mountains = [
     { x_pos: 160, y_pos: 432 },
     { x_pos: 780, y_pos: 432 },
-    { x_pos: 1680, y_pos: 432 },
     { x_pos: 980, y_pos: 432 },
-    { x_pos: 1400, y_pos: 432 },
-    { x_pos: 2280, y_pos: 432 },
-    { x_pos: 2680, y_pos: 432 },
-    { x_pos: 3580, y_pos: 432 },
+    { x_pos: 1600, y_pos: 432 },
+    { x_pos: 3180, y_pos: 432 },
   ];
   cameraPosx = 0;
   limitWorldRight = 3300;
@@ -703,13 +705,13 @@ function startGame() {
   isComplete = false;
   flagpole = { isReached: false, x_pos: 3100 };
   enemies = [];
-  enemies.push(new Enemy(850, 419, 100));
-  enemies.push(new Enemy(1550, 419, 100));
+  enemies.push(new Enemy(850, 419, 140));
+  enemies.push(new Enemy(1550, 419, 340));
   enemies.push(new Enemy(2450, 419, 150));
   platforms = [];
   platforms.push(createPlatform(860, 360, 100));
   platforms.push(createPlatform(1580, 370, 150));
-  platforms.push(createPlatform(1680, 300, 100));
+  platforms.push(createPlatform(1680, 290, 100));
   platforms.push(createPlatform(3000, 360, 60));
 
 }
