@@ -29,186 +29,184 @@ var isDead = false;
 var isComplete = false;
 var numOfPlays;
 
-function preload()
-{
-    soundFormats('mp3','wav');
-    jumpSound = loadSound('assets/jump.wav');
-    coinSound = loadSound('assets/coin.wav');
-    loseSound = loadSound('assets/lose.wav')
-    jumpSound.setVolume(0.1);
-    coinSound.setVolume(0.1);
-    loseSound.setVolume(0.1);
+function preload() {
+  soundFormats("mp3", "wav");
+  jumpSound = loadSound("assets/jump.wav");
+  coinSound = loadSound("assets/coin.wav");
+  loseSound = loadSound("assets/lose.wav");
+  jumpSound.setVolume(0.1);
+  coinSound.setVolume(0.1);
+  loseSound.setVolume(0.1);
 }
-
 
 function setup() {
-    createCanvas(1024, 576);
-    floorPos_y = (height * 3) / 4;
-    lives = 3;
-    startGame();
+  createCanvas(1024, 576);
+  floorPos_y = (height * 3) / 4;
+  lives = 3;
+  startGame();
 }
 
-
 function draw() {
-    ///////////DRAWING CODE//////////
+  ///////////DRAWING CODE//////////
 
-    cameraPosx = gameChar_x - width /2;
+  cameraPosx = gameChar_x - width / 2;
 
-    // DRAW THE SKY
-    background(200, 155, 255);
+  // DRAW THE SKY
+  background(200, 155, 255);
 
-    // DRAW THE GROUND
-    noStroke();
-    fill(0, 155, 0);
-    rect(0, floorPos_y, width, height - floorPos_y);
+  // DRAW THE GROUND
+  noStroke();
+  fill(0, 155, 0);
+  rect(0, floorPos_y, width, height - floorPos_y);
 
-    // CAMERA MOVEMENTS
+  // CAMERA MOVEMENTS
 
-    if (isRight && !isPlummeting && cameraPosx < limitWorldRight - width) {
-        cameraPosx += 3;
+  if (isRight && !isPlummeting && cameraPosx < limitWorldRight - width) {
+    cameraPosx += 3;
+  }
+
+  if (isLeft && !isPlummeting && cameraPosx > limitWorldLeft) {
+    cameraPosx -= 3;
+  }
+
+  // STRAT DRAWNG WORLD ELEMENTS
+  push();
+  translate(-cameraPosx, 0);
+
+  // MOUNTAINS HERE //
+  drawMountains();
+
+  // TREES HERE //
+  drawTrees();
+
+  // CLOUDS HERE //
+  drawClouds();
+
+  // CANYONS HERE //
+  for (i = 0; i < canyons.length; i++) {
+    drawCanyon(canyons[i]);
+    // FALLING INTO THE CANYON INTERACTION
+    checkCanyon(canyons[i]);
+  }
+
+  // COLLECTABLES HERE //
+  for (i = 0; i < collectables.length; i++) {
+    // DRAW THE COLLECTABLE IF NOT FOUND
+    if (!collectables[i].isFound) {
+      drawCollectable(collectables[i]);
+      // COLLECT COLLECTABLES
+      checkCollectable(collectables[i]);
     }
+  }
+  // DRAW FLAGPOLE
+  drawFlagpole();
 
-    if (isLeft && !isPlummeting && cameraPosx > limitWorldLeft) {
-        cameraPosx -= 3;
-    }
+  // DRAW CHARACTER
+  drawGameCharacter();
 
-    // STRAT DRAWNG WORLD ELEMENTS
+  // DRAW ENEMY
+  for(i = 0; i < enemies.length; i++){
+    enemies[i].drawEnemy();
+    enemies[i].contact();
+  }
+
+  pop();
+
+  // CHECK GAME OVER OR LEVEL COMPLETE
+  if (flagpole.isReached == true) {
     push();
-    translate(-cameraPosx, 0);
-
-    // MOUNTAINS HERE //
-    drawMountains();
-
-    // TREES HERE //
-    drawTrees();
-
-    // CLOUDS HERE //
-    drawClouds();
-
-    // CANYONS HERE //
-    for (i = 0; i < canyons.length; i++) {
-        drawCanyon(canyons[i]);
-        // FALLING INTO THE CANYON INTERACTION
-        checkCanyon(canyons[i]);
-    }
-
-    // COLLECTABLES HERE //
-    for (i = 0; i < collectables.length; i++) {
-        // DRAW THE COLLECTABLE IF NOT FOUND
-        if (!collectables[i].isFound) {
-            drawCollectable(collectables[i]);
-            // COLLECT COLLECTABLES
-            checkCollectable(collectables[i]);
-        }
-    }
-    // DRAW FLAGPOLE
-    drawFlagpole();
-
-    // DRAW CHARACTER
-    drawGameCharacter();
-
-    // DRAW ENEMY
-    enemyy.drawEnemy()
-    enemyy.contact()
-
+    strokeWeight(3);
+    stroke(10);
+    fill(20, 200, 20);
+    text("Level complete! Press space to continue", 500, 100);
     pop();
- 
-   
+  }
+  if (lives < 1) {
+    push();
+    strokeWeight(1);
+    stroke(2);
+    fill(30, 200, 20);
+    textSize(20);
+    text("Game Over! Press space to continue", 500, 100);
+    pop();
+    isPlummeting = true;
+  }
 
-    // CHECK GAME OVER OR LEVEL COMPLETE
-    if(flagpole.isReached == true){
-        push()
-        strokeWeight(3)
-        stroke(10)
-        fill(20,200,20)
-        text("Level complete! Press space to continue", 500, 100)
-        pop()
+  //CHECK THE FLAGPOLE
+  if (flagpole.isReached == false) {
+    checkFlagpole();
+  }
+
+  //MINUS ONE LIFE
+  checkPlayerDie();
+
+  //SCORE COUNT TEXT
+  fill(255);
+  noStroke();
+  text("Score: " + game_score, 20, 20);
+
+  //LIVES COUNT TEXT
+  fill(255);
+  noStroke();
+  text("Lives: " + lives, width - 80, 20);
+
+  ///////////INTERACTION CODE//////////
+
+  // JUMPING INTERACTION
+  if (gameChar_y < floorPos_y) {
+    gameChar_y += 3;
+    isFalling = true;
+  } else if (gameChar_y >= floorPos_y) {
+    isFalling = false;
+  }
+
+  // PLUMMETING INTERACTION
+  if (isPlummeting == true) {
+    gameChar_y += 5;
+    isFalling = true;
+    if (gameChar_y > floorPos_y + 250) {
+      isDead = true;
     }
-    if(lives<1){
-        push()
-        strokeWeight(1)
-        stroke(2)
-        fill(30,200,20)
-        textSize(20)
-        text("Game Over! Press space to continue", 500, 100)
-        pop()
-        isPlummeting= true;
-    }
-
-    //CHECK THE FLAGPOLE
-    if(flagpole.isReached == false){
-        checkFlagpole();
-    }
-
-    //MINUS ONE LIFE
-    checkPlayerDie()
-
-    //SCORE COUNT TEXT
-    fill(255);
-    noStroke();
-    text("Score: " + game_score, 20, 20);
-
-    //LIVES COUNT TEXT
-    fill(255);
-    noStroke();
-    text("Lives: " + lives, width - 80, 20)
-
-    ///////////INTERACTION CODE//////////
-
-    // JUMPING INTERACTION
-    if (gameChar_y < floorPos_y) {
-        gameChar_y += 3;
-        isFalling = true;
-    } else if (gameChar_y >= floorPos_y) {
-        isFalling = false;
-    }
-
-    // PLUMMETING INTERACTION
-    if (isPlummeting == true) {
-        gameChar_y += 5;
-        isFalling = true;
-        if(gameChar_y > floorPos_y +250){
-            isDead = true;
-        }
-    }
+  }
 }
 
 // Function to control the animation of the character when
 // keys are pressed.
 function keyPressed() {
-    
-    //flagpole check, if checked then palyer won't be able to move
-    if (keyCode == 65) {
-        isLeft = true;
-    } else if (keyCode == 68) {
-        isRight = true;
-    } else if (keyCode == 32 && isFalling == false) {
-        gameChar_y -= 130;
-        jumpSound.play();
-    }
+  //flagpole check, if checked then palyer won't be able to move
+  if (keyCode == 65) {
+    isLeft = true;
+  } else if (keyCode == 68) {
+    isRight = true;
+  } else if (keyCode == 32 && isFalling == false) {
+    gameChar_y -= 130;
+    jumpSound.play();
+  }
 
-    //RESET GAME AFTER GAME OVER OR WINNING
-    if(flagpole.isReached ==true && keyCode == 32 || lives < 1 && keyCode == 32){
-        startGame();
-        isPlummeting = false;
-        lives = 3;
-    }
-
-   
+  //RESET GAME AFTER GAME OVER OR WINNING
+  if (
+    (flagpole.isReached == true && keyCode == 32) ||
+    (lives < 1 && keyCode == 32)
+  ) {
+    startGame();
+    isPlummeting = false;
+    lives = 3;
+  }
 }
 
 function keyReleased() {
-    // if statements to control the animation of the character when
-    // keys are released.
-    if (keyCode == 65) {
-        isLeft = false;
-    } else if (keyCode == 68) {
-        isRight = false;
-    }
+  // if statements to control the animation of the character when
+  // keys are released.
+  if (keyCode == 65) {
+    isLeft = false;
+  } else if (keyCode == 68) {
+    isRight = false;
+  }
 }
 
 function drawGameCharacter() {
   if (lives < 1) {
+    //Game Over Character
     fill(5, 10, 10);
     rect(gameChar_x - 10, gameChar_y - 65, 40, 5);
     rect(gameChar_x, gameChar_y - 75, 20, 15);
@@ -248,6 +246,7 @@ function drawGameCharacter() {
   }
 
   if (isComplete == true) {
+    //Winning Character
     fill(5, 10, 10);
     rect(gameChar_x - 10, gameChar_y - 65, 40, 5);
     rect(gameChar_x, gameChar_y - 75, 20, 15);
@@ -443,11 +442,10 @@ function drawGameCharacter() {
 
     // FEET;
     fill(10, 80, 200);
-    rect(gameChar_x, gameChar_y - 13, 9, 14);
-    rect(gameChar_x + 11, gameChar_y - 13, 9, 14);
+    rect(gameChar_x, gameChar_y - 14, 9, 14);
+    rect(gameChar_x + 11, gameChar_y - 14, 9, 14);
   }
 }
-
 
 function drawClouds() {
   for (i = 0; i < clouds.length; i++) {
@@ -457,7 +455,6 @@ function drawClouds() {
     ellipse(clouds[i].x_pos, clouds[i].y_pos - 13, 60, 50);
   }
 }
-
 
 function drawTrees() {
   for (let i = 0; i < trees_x.length; i++) {
@@ -486,7 +483,6 @@ function drawTrees() {
   }
 }
 
-
 function drawMountains() {
   for (let i = 0; i < 4; i++) {
     fill(120, 100, 80);
@@ -511,7 +507,6 @@ function drawMountains() {
   }
 }
 
-
 function drawCanyon(t_canyon) {
   fill(200, 155, 255);
   rect(t_canyon.x_pos, 432, t_canyon.width, 800);
@@ -520,7 +515,6 @@ function drawCanyon(t_canyon) {
   fill(140, 90, 80);
   rect(t_canyon.x_pos + t_canyon.width, 432, 20, 800);
 }
-
 
 function checkCanyon(t_canyon) {
   if (
@@ -531,7 +525,6 @@ function checkCanyon(t_canyon) {
     isPlummeting = true;
   }
 }
-
 
 function drawCollectable(t_collectable) {
   if (!collectables[i].isFound) {
@@ -556,7 +549,6 @@ function drawCollectable(t_collectable) {
   }
 }
 
-
 function checkCollectable(t_collectable) {
   if (
     dist(gameChar_x, gameChar_y, t_collectable.x_pos, t_collectable.y_pos) <
@@ -568,7 +560,6 @@ function checkCollectable(t_collectable) {
     console.log("Got one!");
   }
 }
-
 
 function drawFlagpole() {
   push();
@@ -591,7 +582,6 @@ function drawFlagpole() {
   pop();
 }
 
-
 function checkFlagpole() {
   var d = abs(gameChar_x - flagpole.x_pos);
   if (d < 10) {
@@ -599,7 +589,6 @@ function checkFlagpole() {
     isComplete = true;
   }
 }
-
 
 function checkPlayerDie() {
   //I have implemented numOfPlays var to prevent a sound loop when game over
@@ -621,7 +610,6 @@ function checkPlayerDie() {
   }
 }
 
-
 function startGame() {
   gameChar_x = width / 2;
   gameChar_y = floorPos_y;
@@ -630,15 +618,15 @@ function startGame() {
     { x_pos: 570, width: 100 },
     { x_pos: 1370, width: 100 },
     { x_pos: 2070, width: 50 },
+    { x_pos: 2150, width: 80 },
     { x_pos: 2770, width: 120 },
-
   ];
   collectables = [
     { x_pos: 700, y_pos: 410, size: 39, isFound: false },
     { x_pos: 1300, y_pos: 410, size: 39, isFound: false },
     { x_pos: 100, y_pos: 410, size: 39, isFound: false },
   ];
-  trees_x = [200, 390, 800, 1020, 1500, 1900, 2200, 2400];
+  trees_x = [200, 390, 800, 1020, 1500, 1900, 2300, 2550];
   treePos_y = gameChar_y;
   clouds = [
     { x_pos: 600, y_pos: 120 },
@@ -667,10 +655,12 @@ function startGame() {
   limitWorldLeft = 0;
   game_score = 0;
   isComplete = false;
-  flagpole = { isReached: false, x_pos: 3000 };
-  enemyy = new Enemy(200, 419, 100);
+  flagpole = { isReached: false, x_pos: 3100 };
+  enemies= [];
+  enemies.push(new Enemy(850, 419, 100))
+  enemies.push(new Enemy(1550, 419, 100))
+  enemies.push(new Enemy(2450, 419, 150))
 }
-
 
 function Enemy(x, y, range) {
   this.x = x;
@@ -691,6 +681,8 @@ function Enemy(x, y, range) {
   this.drawEnemy = function () {
     this.move();
     fill(200, 20, 20);
+    stroke(0);
+    strokeWeight(1)
     ellipse(this.currentX, this.y, 30, 30);
 
     fill(0);
@@ -702,9 +694,10 @@ function Enemy(x, y, range) {
     line(this.currentX + 12, this.y - 12, this.currentX + 3, this.y - 8);
 
     noFill();
-    stroke(0);
     strokeWeight(2);
+    //new p5.js function found in the documentation
     arc(this.currentX, this.y + 10, 15, 10, PI, 0);
+    noStroke();
   };
   this.contact = function () {
     this.dist = dist(gameChar_x, gameChar_y, this.currentX, this.y);
