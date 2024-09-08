@@ -658,6 +658,7 @@ function checkPlayerDie() {
 
 function startGame() {
   //reset game to default state
+  isDead = false;
   gameChar_x = width / 2;
   gameChar_y = floorPos_y;
   numOfPlays = 0;
